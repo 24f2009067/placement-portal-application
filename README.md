@@ -1,2 +1,5 @@
 # placement-portal-application
-A Flask-based Placement Portal Application built for MAD-I. It enables Admin, Company, and Student roles to manage company approvals, placement drives, student applications, and placement history using a role-based system with SQLite and Bootstrap.
+
+A **role-based web application** developed using **Flask** that streamlines campus placement activities by enabling structured interaction between **Admin (Institute Placement Cell), Companies,** and **Students**.
+
+The application replaces manual processes such as spreadsheets and emails with a centralized system for managing company **approvals, placement drives, student applications, and placement history**.

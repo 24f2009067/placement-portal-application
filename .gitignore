@@ -1,1 +1,25 @@
-/venv
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# Flask instance folder
+instance/
+
+# Python cache
+*/__pycache__
+__pycache__/
+*.py[cod]
+
+# SQLite database
+*.db
+*.sqlite3
+
+# Environment variables
+.env
+
+# VS Code (if you use it)
+.vscode/
+
+# OS files
+.DS_Store

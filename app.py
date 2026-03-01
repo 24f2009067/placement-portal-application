@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from extensions import db
+from models import User, Student
 
 from routes.auth import auth_bp
 

@@ -36,7 +36,7 @@ class Company(db.Model):
 
     name = db.Column(db.String(30), nullable=False)
     website = db.Column(db.String(150))
-    status = db.Column(db.String(30), nullable=False) # Pending / Approved / Rejected
+    status = db.Column(db.String(30), nullable=False, default="Pending") # Pending / Approved / Rejected
 
     drives = db.relationship("Drive", backref="company")
 

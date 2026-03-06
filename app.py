@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from extensions import db
 from models import User, Student
 
@@ -6,10 +6,17 @@ from routes.auth import auth_bp
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///placement_portal.db"
+app.secret_key = b'8c47a8b456b70ef3036e3edc1466d53ac8994a127fb849935118c03ca4e81250'
 db.init_app(app)
 
 with app.app_context():
     db.create_all()
+    if (User.query.filter(User.email == "admin@ppa.com").first() == None):
+        admin = User(email="admin@ppa.com", role="Admin")
+        admin.set_password("password")
+        db.session.add(admin)
+        db.session.commit()
+
 
 app.register_blueprint(auth_bp)
 

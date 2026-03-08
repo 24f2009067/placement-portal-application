@@ -1,33 +1,10 @@
-from flask import Blueprint, render_template, request, url_for, redirect
+from flask import Blueprint, render_template, request, url_for, redirect, session
 from sqlalchemy.exc import IntegrityError
 from models import *
 
 auth_bp = Blueprint("auth", __name__)
 
-@auth_bp.route("/")
-@auth_bp.route("/home")
-def home():
-    return render_template("home.html", current_user_role="User")
-
-# Admin -----------------------------------------------------------------------------------------------------------------
-# login
-@auth_bp.route("/admin/login", methods=["GET", "POST"])
-def admin_login():
-    if request.method == "GET":
-        return render_template("admin/login.html", current_user_role="User")
-    elif request.method == "POST":
-        return login(request, "Admin")
-
 # Student ---------------------------------------------------------------------------------------------------------------
-# login
-@auth_bp.route("/student/login", methods=["GET", "POST"])
-def student_login():
-    if request.method == "GET":
-        return render_template("student/login.html", current_user_role="User")
-    elif request.method == "POST":
-        return login(request, "Student")
-
-# Register
 @auth_bp.route("/student/register", methods=["GET", "POST"])
 def student_register():
     if request.method == "GET":
@@ -61,15 +38,6 @@ def student_register():
         return render_template("student/register.html", current_user_role="User", message="Registration Successfull!")
 
 # Company ---------------------------------------------------------------------------------------------------------------
-# login
-@auth_bp.route("/company/login", methods=["GET", "POST"])
-def company_login():
-    if request.method == "GET":
-        return render_template("company/login.html", current_user_role="User")
-    elif request.method == "POST":
-        return login(request, "Company")
-
-# Register
 @auth_bp.route("/company/register", methods=["GET", "POST"])
 def company_register():
     if request.method == "GET":
@@ -100,13 +68,26 @@ def company_register():
         return render_template("company/register.html", current_user_role="User", message="Registration Successfull!")
     
 
-# Common Login Function
-def login(request, role):
-    email = request.form["email"]
-    password = request.form["password"]
+# Common Login and Logout Functions -------------------------------------------------------------------------------------
+@auth_bp.route("/", methods=["GET", "POST"])
+@auth_bp.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html", current_user_role="User")
+    elif request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
 
-    user = User.query.filter(User.email == email, User.role == role).first()
-    if user and user.check_password(password):
-        return f"<h1>Success {user.email}, {user.role} {role}</h1>"
-    else:
-        return render_template(f"{role.lower()}/login.html", current_user_role="User", message="Incorrect Email or Password!")
+        user = User.query.filter(User.email == email).first()
+        if user and user.check_password(password):
+            session["user_id"] = user.user_id
+            role = user.role
+            return redirect(url_for(f"{role.lower()}.{role.lower()}_dashboard"))
+        else:
+            return render_template("login.html", current_user_role="User", message="Incorrect Email or Password!")
+
+@auth_bp.route("/logout")
+def logout():
+    if "user_id" in session:
+        session.clear()
+    return redirect("/")

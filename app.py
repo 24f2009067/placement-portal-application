@@ -3,6 +3,9 @@ from extensions import db
 from models import User, Student
 
 from routes.auth import auth_bp
+from routes.admin import admin_bp
+from routes.student import student_bp
+from routes.company import company_bp
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///placement_portal.db"
@@ -19,6 +22,9 @@ with app.app_context():
 
 
 app.register_blueprint(auth_bp)
+app.register_blueprint(admin_bp)
+app.register_blueprint(student_bp)
+app.register_blueprint(company_bp)
 
 if (__name__ == "__main__"):
     app.run(debug=True)

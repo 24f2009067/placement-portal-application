@@ -51,14 +51,14 @@ def company_register():
         website = form["website"].strip()
 
         try:
-            user = User(email=email, role="Company")
+            user = User(email=email, role="Company",  is_active=False)
             user.set_password(password)
             db.session.add(user)
             db.session.commit()
 
             user = User.query.filter(User.email == email).first()
 
-            company = Company(user_id=user.user_id, name=name, website=website)
+            company = Company(user_id=user.user_id, name=name, website=website, status="Pending")
             db.session.add(company)
             db.session.commit()
         except(IntegrityError):

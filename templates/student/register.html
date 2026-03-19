@@ -1,97 +1,99 @@
 {% extends "base.html" %} {% block title %}Student Register{% endblock %} {%
 block content %}
 
-<div class="col-md-6 col-lg-4">
-    <div class="card shadow p-4">
-        <h3 class="text-center mb-3">Student Registeration</h3>
+<div class="row h-100 justify-content-center align-items-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow p-4">
+            <h3 class="text-center mb-3">Student Registeration</h3>
 
-        <form action="{{ url_for('auth.student_register') }}" method="post">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    class="form-control"
-                    placeholder="Tom"
-                    required
-                />
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    class="form-control"
-                    placeholder="example@xyz.com"
-                    required
-                />
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="password">Password</label>
-                <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    name="password"
-                    placeholder="********"
-                    required
-                />
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="skills">Skills</label>
-                <textarea
-                    name="skills"
-                    id="skills"
-                    class="form-control"
-                    rows="3"
-                    placeholder="C++, Java, SQL..."
-                ></textarea>
-            </div>
-            <div class="mb-3 row">
-                <div class="col">
-                    <label class="form-label" for="dept">Department</label>
+            <form action="{{ url_for('auth.student_register') }}" method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
                     <input
-                        name="dept"
                         type="text"
+                        name="name"
+                        id="name"
                         class="form-control"
-                        id="dept"
-                        placeholder="CSE"
+                        placeholder="Tom"
                         required
                     />
                 </div>
-                <div class="col">
-                    <label class="form-label" for="course">Course</label>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
                     <input
-                        name="course"
-                        type="text"
+                        type="email"
+                        name="email"
+                        id="email"
                         class="form-control"
-                        id="course"
-                        placeholder="BS Data Science"
+                        placeholder="example@xyz.com"
                         required
                     />
                 </div>
-            </div>
-            <div class="mb-3">
-                <label for="resume" class="form-label">Resume (link)</label>
-                <input
-                    type="url"
-                    name="resume"
-                    id="resume"
-                    class="form-control"
-                    placeholder="https://example.com"
-                />
-            </div>
-            <button type="submit" class="btn btn-primary mb-5 w-100">
-                Register
-            </button>
-            <p class="text-center text-danger">{{ message }}</p>
-            <p class="text-center">
-                Already have an account?
-                <a href="{{ url_for('auth.login') }}">Login</a>
-            </p>
-        </form>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Password</label>
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        placeholder="********"
+                        required
+                    />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="skills">Skills</label>
+                    <textarea
+                        name="skills"
+                        id="skills"
+                        class="form-control"
+                        rows="3"
+                        placeholder="C++, Java, SQL..."
+                    ></textarea>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col">
+                        <label class="form-label" for="dept">Department</label>
+                        <input
+                            name="dept"
+                            type="text"
+                            class="form-control"
+                            id="dept"
+                            placeholder="CSE"
+                            required
+                        />
+                    </div>
+                    <div class="col">
+                        <label class="form-label" for="course">Course</label>
+                        <input
+                            name="course"
+                            type="text"
+                            class="form-control"
+                            id="course"
+                            placeholder="BS Data Science"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="resume" class="form-label">Resume (link)</label>
+                    <input
+                        type="url"
+                        name="resume"
+                        id="resume"
+                        class="form-control"
+                        placeholder="https://example.com"
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary mb-5 w-100">
+                    Register
+                </button>
+                <p class="text-center text-danger">{{ message }}</p>
+                <p class="text-center">
+                    Already have an account?
+                    <a href="{{ url_for('auth.login') }}">Login</a>
+                </p>
+            </form>
+        </div>
     </div>
 </div>
 

@@ -11,4 +11,7 @@ def student_dashboard():
     if (not (user_id and user.role == "Student")):
         return redirect(url_for("auth.login"))
     
+    if (not user.is_active):
+        return render_template("login.html", current_user_role="User", message="Access Denied! Contact your administrator.")
+    
     return render_template("/student/dashboard.html", current_user_role="Student")

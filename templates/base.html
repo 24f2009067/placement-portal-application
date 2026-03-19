@@ -12,11 +12,11 @@
         <link rel="stylesheet" href="../static/style.css" />
         <title>{% block title %}Placement Portal{% endblock %}</title>
     </head>
-    <body class="d-flex flex-column min-vh-100">
+    <body class="d-flex flex-column vh-100">
         {% include "components/navbar.html" %}
 
         <div
-            class="container flex-grow-1 d-flex align-items-center justify-content-center flex-column mt-4"
+            class="container-fluid flex-grow-1"
         >
             {% block content %}{% endblock %}
         </div>
@@ -26,5 +26,31 @@
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
             crossorigin="anonymous"
         ></script>
+
+        <script>
+            const themeSwitcher = document.querySelector("#themeSwitcher");
+            const html = document.documentElement;
+            const savedTheme = localStorage.getItem("theme");
+
+            if (savedTheme) {
+                html.setAttribute("data-bs-theme", savedTheme);
+                if (savedTheme == "dark") themeSwitcher.src = "../static/light_mode.svg";
+                else themeSwitcher.src = "../static/dark_mode.svg";
+            }
+
+            themeSwitcher.addEventListener("click", () => {
+                const currentTheme = html.getAttribute("data-bs-theme");
+
+                if (currentTheme === "dark") {
+                    html.setAttribute("data-bs-theme", "light");
+                    themeSwitcher.src = "../static/dark_mode.svg";
+                    localStorage.setItem("theme", "light");
+                } else {
+                    html.setAttribute("data-bs-theme", "dark");
+                    themeSwitcher.src = "../static/light_mode.svg";
+                    localStorage.setItem("theme", "dark");
+                }
+            });
+        </script>
     </body>
 </html>

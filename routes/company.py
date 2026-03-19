@@ -11,4 +11,7 @@ def company_dashboard():
     if (not (user_id and user.role == "Company")):
         return redirect(url_for("auth.login"))
     
+    if (not user.is_active):
+        return render_template("login.html", current_user_role="User", message="Access Denied! Contact your administrator.")
+    
     return render_template("/company/dashboard.html", current_user_role="Company")

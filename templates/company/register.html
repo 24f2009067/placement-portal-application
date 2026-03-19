@@ -1,66 +1,69 @@
 {% extends "base.html" %} {% block title %}Company Register{% endblock %} {%
 block content %}
 
-<div class="col-md-6 col-lg-4">
-    <div class="card shadow p-4">
-        <h3 class="text-center mb-3">Company Registeration</h3>
+<div class="row h-100 justify-content-center align-items-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow p-4">
+            <h3 class="text-center mb-3">Company Registeration</h3>
 
-        <form action="{{ url_for('auth.company_register') }}" method="post">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input
-                    type="text"
-                    name="name"
-                    id="email"
-                    class="form-control"
-                    name="email"
-                    placeholder="XYZ"
-                    required
-                />
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    class="form-control"
-                    name="email"
-                    placeholder="example@xyz.com"
-                    required
-                />
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="password">Password</label>
-                <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    name="password"
-                    placeholder="********"
-                    required
-                />
-            </div>
-            <div class="mb-3">
-                <label for="website" class="form-label">Website (link)</label>
-                <input
-                    type="url"
-                    name="website"
-                    id="website"
-                    class="form-control"
-                    placeholder="https://example.com"
-                />
-            </div>
-            <button type="submit" class="btn btn-primary mb-5 w-100">
-                Register
-            </button>
-            <p class="text-center text-danger">{{ message }}</p>
-            <p class="text-center">
-                Already have an account?
-                <a href="{{ url_for('auth.login') }}">Login</a>
-            </p>
-        </form>
+            <form action="{{ url_for('auth.company_register') }}" method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input
+                        type="text"
+                        name="name"
+                        id="email"
+                        class="form-control"
+                        name="email"
+                        placeholder="XYZ"
+                        required
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        class="form-control"
+                        name="email"
+                        placeholder="example@xyz.com"
+                        required
+                    />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Password</label>
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        placeholder="********"
+                        required
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="website" class="form-label"
+                        >Website (link)</label
+                    >
+                    <input
+                        type="url"
+                        name="website"
+                        id="website"
+                        class="form-control"
+                        placeholder="https://example.com"
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary mb-5 w-100">
+                    Register
+                </button>
+                <p class="text-center text-danger">{{ message }}</p>
+                <p class="text-center">
+                    Already have an account?
+                    <a href="{{ url_for('auth.login') }}">Login</a>
+                </p>
+            </form>
+        </div>
     </div>
 </div>
-
 {% endblock %}

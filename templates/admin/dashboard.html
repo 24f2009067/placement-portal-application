@@ -1,7 +1,53 @@
-{% extends "base.html" %}
-
-{% block title %}Admin Dashboard{% endblock %}
-
-{% block content %}
-<h1>Welcome admin</h1>
+{% extends "base.html" %} {% block title %}Admin Dashboard{% endblock %} {%
+block content %}
+<div class="row justify-content-evenly mt-4 g-4">
+    <div class="col-12 col-lg-4 col-md-7 text-center">
+        <div class="card shadow p-4">
+            <div class="card-body">
+                <h3 class="mb-4 card-title">Students</h3>
+                <div class="row justify-content-evenly">
+                    <div class="col-4">
+                        <div class="small">Total</div>
+                        <div class="fw-bold fs-4 text-primary">{{ stats["student_total"] }}</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="small">Active</div>
+                        <div class="fw-bold fs-4 text-success">{{ stats["student_active"] }}</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="small">Blacklisted</div>
+                        <div class="fw-bold fs-4 text-danger">{{ stats["student_blacklisted"] }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4 col-md-7 text-center">
+        <div class="card shadow p-4">
+            <div class="card-body">
+                <h3 class="mb-4 card-title">Companies</h3>
+                <div class="row justify-content-evenly">
+                    <div class="col-3">
+                        <div class="small">Total</div>
+                        <div class="fw-bold fs-4 text-primary">{{ stats["company_total"] }}</div>
+                    </div>
+                    <div class="col-3">
+                        <div class="small">Active</div>
+                        <div class="fw-bold fs-4 text-success">{{ stats["company_active"] }}</div>
+                    </div>
+                    <div class="col-3">
+                        <div class="small">Pending</div>
+                        <div class="fw-bold fs-4 text-secondary-emphasis">
+                            {{ stats["company_pending"] }}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="small">Blacklisted</div>
+                        <div class="fw-bold fs-4 text-danger">{{ stats["company_blacklisted"] }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

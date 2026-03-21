@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Application {{ application.application_id }}{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center align-items-center h-100">
+    <div class="col-sm-12 col-md-8 col-lg-4">
+
+        <div class="card p-4 shadow">
+
+            <h3 class="mb-4 d-flex justify-content-between"><span>Student Application</span><span>#{{ application.application_id }}</span></h3>
+
+            <div class="mb-4">
+                <h6 class="text-muted mb-1">Student</h6>
+                <p class="fs-5 mb-0">{{ application.student.name }}</p>
+                <small class="text-secondary mb-0">
+                    {{ application.student.dept }} • {{ application.student.course }}
+                </small>
+                <small class="text-secondary mb-0 d-block">
+                    Student ID: {{ application.student.student_id }}
+                </small>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="text-muted mb-1">Application</h6>
+                <p class="mb-0">Applied on: {{ application.applied_on }}</p>
+            </div>
+
+            <div class="mb-4">
+                <h6 class="text-muted mb-1">Drive</h6>
+                <p class="mb-0 fw-semibold">{{ application.drive.job_title }}</p>
+                <small class="text-secondary">Drive ID: {{ application.drive.drive_id }}</small>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <a class="btn btn-primary px-4"
+                   href="{{ application.student.resume_path }}" target="_blank">
+                   View Resume
+                </a>
+
+                <a class="btn btn-outline-secondary px-4"
+                   href="{{ url_for('admin.admin_dashboard') }}">
+                   Go Back
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

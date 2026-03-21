@@ -1,39 +1,51 @@
 {% extends "base.html" %} {% block title %}Admin Dashboard{% endblock %} {%
 block content %}
-<div class="row justify-content-evenly mt-4 g-4">
+
+<!-- Stats -->
+<div class="row justify-content-evenly g-4 mt-3">
     <div class="col-12 col-lg-4 col-md-7 text-center">
-        <div class="card shadow p-4">
+        <div class="card shadow p-4 h-100">
             <div class="card-body">
                 <h3 class="mb-4 card-title">Students</h3>
                 <div class="row justify-content-evenly">
                     <div class="col-4">
                         <div class="small">Total</div>
-                        <div class="fw-bold fs-4 text-primary">{{ stats["student_total"] }}</div>
+                        <div class="fw-bold fs-4 text-primary">
+                            {{ stats["student_total"] }}
+                        </div>
                     </div>
                     <div class="col-4">
                         <div class="small">Active</div>
-                        <div class="fw-bold fs-4 text-success">{{ stats["student_active"] }}</div>
+                        <div class="fw-bold fs-4 text-success">
+                            {{ stats["student_active"] }}
+                        </div>
                     </div>
                     <div class="col-4">
                         <div class="small">Blacklisted</div>
-                        <div class="fw-bold fs-4 text-danger">{{ stats["student_blacklisted"] }}</div>
+                        <div class="fw-bold fs-4 text-danger">
+                            {{ stats["student_blacklisted"] }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-12 col-lg-4 col-md-7 text-center">
-        <div class="card shadow p-4">
+        <div class="card shadow p-4 h-100">
             <div class="card-body">
                 <h3 class="mb-4 card-title">Companies</h3>
                 <div class="row justify-content-evenly">
                     <div class="col-3">
                         <div class="small">Total</div>
-                        <div class="fw-bold fs-4 text-primary">{{ stats["company_total"] }}</div>
+                        <div class="fw-bold fs-4 text-primary">
+                            {{ stats["company_total"] }}
+                        </div>
                     </div>
                     <div class="col-3">
                         <div class="small">Active</div>
-                        <div class="fw-bold fs-4 text-success">{{ stats["company_active"] }}</div>
+                        <div class="fw-bold fs-4 text-success">
+                            {{ stats["company_active"] }}
+                        </div>
                     </div>
                     <div class="col-3">
                         <div class="small">Pending</div>
@@ -43,11 +55,264 @@ block content %}
                     </div>
                     <div class="col-3">
                         <div class="small">Blacklisted</div>
-                        <div class="fw-bold fs-4 text-danger">{{ stats["company_blacklisted"] }}</div>
+                        <div class="fw-bold fs-4 text-danger">
+                            {{ stats["company_blacklisted"] }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-4 col-md-7 text-center">
+        <div class="card shadow p-4 h-100">
+            <div class="card-body">
+                <h3 class="mb-4 card-title">Drives</h3>
+                <div class="row justify-content-evenly">
+                    <div class="col-3">
+                        <div class="small">Total</div>
+                        <div class="fw-bold fs-4 text-primary">
+                            {{ stats["drive_total"] }}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="small">Active</div>
+                        <div class="fw-bold fs-4 text-success">
+                            {{ stats["drive_active"] }}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="small">Closed</div>
+                        <div class="fw-bold fs-4 text-danger">
+                            {{ stats["drive_closed"] }}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="small">Applications</div>
+                        <div class="fw-bold fs-4 text-info">
+                            {{ stats["drive_applications"] }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Applications -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow p-4">
+            <h3 class="card-title mb-3">Student Applications</h3>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-1">Application ID</th>
+                            <th class="col-1">Drive ID</th>
+                            <th class="col-3">Student</th>
+                            <th class="col-2">Company</th>
+                            <th class="col-2">Date</th>
+                            <th class="col-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in applications %}
+                        <tr>
+                            <td>{{ application.application_id }}</td>
+                            <td>{{ application.drive.drive_id }}</td>
+                            <td>{{ application.student.name }}</td>
+                            <td>{{ application.drive.company.name }}</td>
+                            <td>{{ application.applied_on }}</td>
+                            <td class="text-center">
+                                <a
+                                    class="btn btn-outline-primary"
+                                    href="{{ url_for('admin.viewApplication' , id=application.application_id) }}"
+                                    >View Details</a
+                                >
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Drives -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow p-4">
+            <h3 class="card-title mb-3">Ongoing Drives</h3>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-1">Drive ID</th>
+                            <th class="col-4">Job Title</th>
+                            <th class="col-4">Company</th>
+                            <th class="col-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for drive in ongoingDrives %}
+                        <tr>
+                            <td>{{ drive.drive_id }}</td>
+                            <td>{{ drive.job_title }}</td>
+                            <td>{{ drive.company.name }}</td>
+                            <td class="text-center">
+                                <a
+                                    class="btn btn-outline-primary mx-3"
+                                    href="{{ url_for('admin.viewDrive' , id=drive.drive_id) }}"
+                                    >View Details</a
+                                >
+                                <form
+                                    class="d-inline"
+                                    action="{{ url_for('admin.completeDrive', id=drive.drive_id) }}"
+                                    method="post"
+                                >
+                                    <button
+                                        class="btn btn-outline-success"
+                                        type="submit"
+                                    >
+                                        Mark as Complete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Students -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow p-4">
+            <h3 class="card-title mb-3">Registered Students</h3>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-1">Studenty ID</th>
+                            <th class="col-2">Name</th>
+                            <th class="col-3">Dept</th>
+                            <th class="col-3">Course</th>
+                            <th class="col-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in regStudents %}
+                        <tr>
+                            <td>{{ student.student_id }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.dept }}</td>
+                            <td>{{ student.course }}</td>
+                            <td class="text-center">
+                                <form
+                                    action="{{ url_for('admin.blacklistStudent', id=student.student_id) }}"
+                                    method="post"
+                                >
+                                    <button
+                                        class="btn btn-outline-danger"
+                                        type="submit"
+                                    >
+                                        Blacklist
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- company -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow p-4">
+            <h3 class="card-title mb-3">Registered Companies</h3>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-1">Company ID</th>
+                            <th class="col-8">Name</th>
+                            <th class="col-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for company in regCompanies %}
+                        <tr>
+                            <td>{{ company.company_id }}</td>
+                            <td>{{ company.name }}</td>
+                            <td class="text-center">
+                                <form
+                                    action="{{ url_for('admin.blacklistCompany', id=company.company_id) }}"
+                                    method="post"
+                                >
+                                    <button
+                                        class="btn btn-outline-danger"
+                                        type="submit"
+                                    >
+                                        Blacklist
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow p-4">
+            <h3 class="card-title mb-3">Company Applications</h3>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-1">Company ID</th>
+                            <th class="col-8">Name</th>
+                            <th class="col-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for company in pendCompanies %}
+                        <tr>
+                            <td>{{ company.company_id }}</td>
+                            <td>{{ company.name }}</td>
+                            <td class="text-center">
+                                <form
+                                    action="{{ url_for('admin.approveCompany', id=company.company_id) }}"
+                                    method="post"
+                                >
+                                    <button
+                                        class="btn btn-outline-success"
+                                        type="submit"
+                                    >
+                                        Approve
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

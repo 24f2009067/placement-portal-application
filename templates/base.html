@@ -9,7 +9,7 @@
             integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
             crossorigin="anonymous"
         />
-        <link rel="stylesheet" href="../static/style.css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
         <title>{% block title %}Placement Portal{% endblock %}</title>
     </head>
     <body class="d-flex flex-column vh-100">
@@ -28,14 +28,15 @@
         ></script>
 
         <script>
+            // theme switcher
             const themeSwitcher = document.querySelector("#themeSwitcher");
             const html = document.documentElement;
             const savedTheme = localStorage.getItem("theme");
 
             if (savedTheme) {
                 html.setAttribute("data-bs-theme", savedTheme);
-                if (savedTheme == "dark") themeSwitcher.src = "../static/light_mode.svg";
-                else themeSwitcher.src = "../static/dark_mode.svg";
+                if (savedTheme == "dark") themeSwitcher.src = "{{ url_for('static', filename='light_mode.svg') }}";
+                else themeSwitcher.src = "{{ url_for('static', filename='dark_mode.svg') }}";
             }
 
             themeSwitcher.addEventListener("click", () => {
@@ -43,11 +44,11 @@
 
                 if (currentTheme === "dark") {
                     html.setAttribute("data-bs-theme", "light");
-                    themeSwitcher.src = "../static/dark_mode.svg";
+                    themeSwitcher.src = "{{ url_for('static', filename='dark_mode.svg') }}";
                     localStorage.setItem("theme", "light");
                 } else {
                     html.setAttribute("data-bs-theme", "dark");
-                    themeSwitcher.src = "../static/light_mode.svg";
+                    themeSwitcher.src = "{{ url_for('static', filename='light_mode.svg') }}";
                     localStorage.setItem("theme", "dark");
                 }
             });

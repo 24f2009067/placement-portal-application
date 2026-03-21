@@ -6,6 +6,15 @@ company_bp = Blueprint("company", __name__)
 
 @company_bp.route("/company/dashboard")
 def company_dashboard():
+    page = reLogin()
+    if page: return page
+    
+    return render_template("/company/dashboard.html", current_user_role="Company")
+
+
+# utility functions
+
+def reLogin():
     user_id = session.get("user_id")
     user = User.query.filter(User.user_id == user_id).first()
     if (not (user_id and user.role == "Company")):
@@ -14,4 +23,4 @@ def company_dashboard():
     if (not user.is_active):
         return render_template("login.html", current_user_role="User", message="Access Denied! Contact your administrator.")
     
-    return render_template("/company/dashboard.html", current_user_role="Company")
+    return False

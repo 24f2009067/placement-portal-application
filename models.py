@@ -47,7 +47,7 @@ class Drive(db.Model):
     description = db.Column(db.String(200))
     eligibility = db.Column(db.String(200))
     deadline = db.Column(db.Date, nullable=False)
-    status = db.Column(db.String(30), nullable=False) # Pending / Approved / Rejected / Closed
+    status = db.Column(db.String(30), nullable=False, default="Approved") # Approved / Rejected / Closed
 
     applications = db.relationship('Application', backref="drive")
 
@@ -56,7 +56,7 @@ class Application(db.Model):
     drive_id = db.Column(db.Integer, db.ForeignKey('drive.drive_id'), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('student.student_id'), nullable=False)
     applied_on = db.Column(db.Date, nullable=False)
-    status = db.Column(db.String(30), nullable=False) # Applied / Shortlisted / Rejected / Selected
+    status = db.Column(db.String(30), nullable=False, default="Applied") # Applied / Rejected / Selected
 
     __table_args__ = (
         db.UniqueConstraint("student_id", "drive_id", name="unique_student_drive"),

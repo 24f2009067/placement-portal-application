@@ -80,7 +80,7 @@ def completeDrive(id):
     return redirect(url_for("admin.admin_dashboard"))
 
 # Applications
-@admin_bp.route("/admin/application/<int:id>/view")
+@admin_bp.route("/admin/applications/<int:id>/view")
 def viewApplication(id):
     page = reLogin()
     if page: return page
@@ -93,7 +93,7 @@ def viewApplication(id):
     return redirect(url_for("admin.admin_dashboard"))
 
 # Drive
-@admin_bp.route("/admin/drive/<int:id>/view")
+@admin_bp.route("/admin/drives/<int:id>/view")
 def viewDrive(id):
     page = reLogin()
     if page: return page

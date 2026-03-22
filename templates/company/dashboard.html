@@ -1,13 +1,94 @@
-{% extends "base.html" %}
-
-{% block title %}Company Dashboard{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Company Dashboard{% endblock %} {%
+block content %}
 
 <div class="row justify-content-evenly g-4 mt-3">
     <div class="col-12">
         <div class="card shadow p-4">
-            <h3 class="card-title mb-3"><span>Upcoming Drives</span><a href="" class="btn btn-outline-success">Create Drive</a></h3>
+            <h3 class="card-title mb-3 d-flex justify-content-between">
+                <span>Upcoming Drives</span
+                ><a
+                    href="{{ url_for('company.createDrive') }}"
+                    class="btn btn-outline-success"
+                    >Create Drive</a
+                >
+            </h3>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <th class="col-1">Drive ID</th>
+                            <th class="col-4">Job Title</th>
+                            <th class="col-4">Company</th>
+                            <th class="col-3 text-center">Action</th>
+                        </thead>
+                        <tbody>
+                            {% for drive in ongoingDrives %}
+                            <tr>
+                                <td>{{ drive.drive_id }}</td>
+                                <td>{{ drive.job_title }}</td>
+                                <td>{{ drive.company.name }}</td>
+                                <td class="text-center">
+                                    <div class="d-flex">
+                                        <a
+                                            class="btn btn-outline-primary mx-3"
+                                            href="{{ url_for('company.viewDrive' , id=drive.drive_id) }}"
+                                            >View Details</a
+                                        >
+                                        <form
+                                            action="{{ url_for('company.completeDrive', id=drive.drive_id) }}"
+                                            method="post"
+                                        >
+                                            <button
+                                                class="btn btn-outline-success"
+                                                type="submit"
+                                            >
+                                                Mark as Complete
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-evenly g-4 mt-3">
+    <div class="col-12">
+        <div class="card shadow p-4">
+            <h3 class="card-title mb-3">Closed Drives</h3>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped text-center">
+                        <thead>
+                            <th class="col-1">Drive ID</th>
+                            <th class="col-4">Job Title</th>
+                            <th class="col-4">Company</th>
+                            <th class="col-3 text-center">Action</th>
+                        </thead>
+                        <tbody>
+                            {% for drive in closedDrives %}
+                            <tr>
+                                <td>{{ drive.drive_id }}</td>
+                                <td>{{ drive.job_title }}</td>
+                                <td>{{ drive.company.name }}</td>
+                                <td class="text-center">
+                                    <a
+                                        class="btn btn-outline-primary mx-3"
+                                        href="{{ url_for('company.updateDrive' , id=drive.drive_id) }}"
+                                        >Update</a
+                                    >
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

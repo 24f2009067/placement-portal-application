@@ -1,13 +1,13 @@
-{% extends "base.html" %} {% block title %}Create Drive{% endblock %} {% block
+{% extends "base.html" %} {% block title %}Update Drive{% endblock %} {% block
 content %}
 
 <div class="row d-flex justify-content-center h-100 align-content-center">
     <div class="col-12 col-md-6 col-lg-4">
         <div class="card shadow p-4">
-            <h3 class="card-title mb-4">Create Drive</h3>
+            <h3 class="card-title mb-4">Update Drive</h3>
             <div class="card-body">
                 <form
-                    action="{{ url_for('company.createDrive') }}"
+                    action="{{ url_for('company.updateDrive', id=drive.drive_id) }}"
                     method="post"
                 >
                     <div class="mb-3">
@@ -20,6 +20,7 @@ content %}
                             name="job_title"
                             id="job_title"
                             placeholder="Software Engineer Intern"
+                            value="{{ drive.job_title }}"
                             required
                         />
                     </div>
@@ -35,7 +36,7 @@ content %}
                             rows="3"
                             class="form-control"
                             placeholder="Work on backend systems and APIs."
-                        ></textarea>
+                        >{{ drive.description }}</textarea>
                     </div>
 
                     <div class="mb-3">
@@ -47,6 +48,7 @@ content %}
                             class="form-control"
                             name="eligibility"
                             id="eligibility"
+                            value="{{ drive.eligibility }}"
                             placeholder="Any CS branch, CGPA > 9"
                             required
                         />
@@ -61,6 +63,7 @@ content %}
                             class="form-control"
                             name="deadline"
                             id="deadline"
+                            value="{{ drive.deadline }}"
                             min="{{ date }}"
                             required
                         />

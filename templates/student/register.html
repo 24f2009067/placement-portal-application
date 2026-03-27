@@ -87,7 +87,7 @@ block content %}
                 <button type="submit" class="btn btn-primary mb-5 w-100">
                     Register
                 </button>
-                <p class="text-center text-danger">{{ message }}</p>
+                <p class="text-center text-{{ 'success' if message=='Registration Successfull!' else 'danger' }}">{{ message }}</p>
                 <p class="text-center">
                     Already have an account?
                     <a href="{{ url_for('auth.login') }}">Login</a>

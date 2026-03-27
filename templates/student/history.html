@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %} History {% endblock %} {% block
+content %}
+
+<div class="row my-4">
+    <div class="col-12">
+        <div class="card p-4 shadow">
+            <h3 class="card-title d-flex justify-content-between">
+                Student Details <span>#{{ student.student_id }}</span>
+            </h3>
+            <div class="card-body">
+                <h6 class="mb-0 text-muted">Name</h6>
+                <p class="fs-4 mb-0">{{ student.name }}</p>
+
+                <h6 class="mt-4 mb-0 text-muted">Department</h6>
+                <p class="fs-4 mb-0">{{ student.dept }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row my-4">
+    <div class="col-12">
+        <div class="card p-4 shadow">
+            <h3 class="card-title">Completed Drives</h3>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

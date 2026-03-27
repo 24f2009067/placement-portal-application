@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block title %}Company {{ company.company_id }}{%
+endblock %} {% block content %}
+
+<div class="row d-flex justify-content-center align-content-center h-100">
+    <div class="col-sm-12 col-md-5 col-lg-6">
+        <div class="card shadow p-4">
+            <h3 class="card-title d-flex justify-content-between mb-3">
+                {{ company.name }} <span>#{{ company.company_id }}</span>
+            </h3>
+            <div class="card-body">
+                <div class="mb-4">
+                    <table
+                        class="table table-responsive table-striped text-center align-middle"
+                    >
+                        <thead>
+                            <tr>
+                                <th class="col-2">Drive ID</th>
+                                <th class="col-4">Job Title</th>
+                                <th class="col-3">Deadline</th>
+                                <th class="col-3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for drive in drives %}
+                            <tr>
+                                <td>{{ drive.drive_id }}</td>
+                                <td>{{ drive.job_title }}</td>
+                                <td>{{ drive.deadline }}</td>
+                                <td>
+                                    <a href="{{ url_for('student.viewDrive', id=drive.drive_id) }}" class="btn btn-outline-primary"
+                                        >Get Details</a
+                                    >
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-center">
+                    <a href="{{ url_for('student.student_dashboard') }}" class="btn btn-outline-secondary">Go Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

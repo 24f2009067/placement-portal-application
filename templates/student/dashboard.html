@@ -8,7 +8,7 @@ block content %}
             >
                 <h2 class="card-title">Welcome {{ student.name.title() }}</h2>
                 <div class="d-flex justify-content-evenly gap-3">
-                    <a href="" class="btn btn-outline-primary"
+                    <a href="{{ url_for('student.editProfile') }}" class="btn btn-outline-primary"
                         >Edit Pofile</a
                     >
                     <a href="{{ url_for('student.history') }}" class="btn btn-outline-secondary">History</a>
@@ -62,18 +62,20 @@ block content %}
                         <thead>
                             <tr>
                                 <th class="col-1">Drive ID</th>
-                                <th class="col-4">Job Title</th>
-                                <th class="col-4">Company</th>
-                                <th class="col-3">Deadline</th>
+                                <th>Job Title</th>
+                                <th>Company</th>
+                                <th>Deadline</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for drive in appliedDrives %}
+                            {% for application in appliedDrives %}
                             <tr>
-                                <td>{{ drive.drive_id }}</td>
-                                <td>{{ drive.job_title }}</td>
-                                <td>{{ drive.company.name }}</td>
-                                <td>{{ drive.deadline }}</td>
+                                <td>{{ application.drive_id }}</td>
+                                <td>{{ application.drive.job_title }}</td>
+                                <td>{{ application.drive.company.name }}</td>
+                                <td>{{ application.drive.deadline }}</td>
+                                <td>{{ application.status }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

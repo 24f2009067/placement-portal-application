@@ -57,6 +57,7 @@ class Application(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('student.student_id'), nullable=False)
     applied_on = db.Column(db.Date, nullable=False)
     status = db.Column(db.String(30), nullable=False, default="Applied") # Applied / Rejected / Selected
+    history = db.Column(db.String(250), nullable=False, default="Applied")
 
     __table_args__ = (
         db.UniqueConstraint("student_id", "drive_id", name="unique_student_drive"),

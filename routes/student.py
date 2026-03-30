@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, session
+from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 from models import *
 from datetime import datetime
@@ -30,7 +31,7 @@ def history():
     student = Student.query.filter(Student.user_id == user_id).first()
     id = student.student_id
 
-    return render_template("/student/history.html", current_user_role="Student", student=student)
+    return render_template("/student/history.html", current_user_role="Student", student=student, history=getHistory(id))
 
 # company routes
 @student_bp.route("/student/company/<int:id>/view")
@@ -85,6 +86,34 @@ def apply(id):
     
     return redirect(url_for('student.student_dashboard'))
 
+# Profile
+
+@student_bp.route("/student/profile/edit", methods=["GET", "POST"])
+def editProfile():
+    page = reLogin()
+    if page: return page
+
+    uid = session.get("user_id")
+    student = Student.query.filter(Student.user_id == uid).first()
+
+    if request.method == "POST":
+        form = request.form
+        student.name = form["name"].strip().title()
+        if form["password"] != "":
+            student.user.set_password(form["password"])
+        student.skills = form["skills"].strip().lower()
+        student.dept = form["dept"].strip().upper()
+        student.course = form["course"].strip().upper()
+        student.resume_path = form["resume_path"].strip()
+
+        db.session.commit()
+        return redirect(url_for("student.student_dashboard"))
+
+    
+    if request.method == "GET":
+        return render_template("/student/editProfile.html", current_user_role="Student", student=student)
+    
+
 # Utilities
 def reLogin():
     user_id = session.get("user_id")
@@ -99,7 +128,10 @@ def getRegCompanies():
     return Company.query.filter(Company.status == "Approved").order_by(Company.name).order_by(Company.company_id).all()
 
 def getAppliedDrives(id):
-    return Drive.query.join(Drive.applications).filter(Application.student_id == id, Drive.deadline >= datetime.today(), Drive.status == "Approved").order_by(Drive.drive_id).all()
+    return Application.query.join(Application.drive).filter(Application.student_id == id).order_by(Drive.drive_id).all()
 
 def getDrives(id):
     return Drive.query.filter(Drive.company_id == id, Drive.deadline >= datetime.today(), Drive.status == "Approved").order_by(Drive.drive_id).all()
+
+def getHistory(id):
+    return Application.query.filter(Application.student_id == id).all()

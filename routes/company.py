@@ -132,6 +132,7 @@ def setStatus(id):
     if application:
         status = request.form["status"]
         application.status = status
+        application.history = application.history + "," + status
         db.session.commit()
     
     return redirect(url_for("company.viewDrive", id=application.drive_id))

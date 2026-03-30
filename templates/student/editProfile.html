@@ -1,0 +1,54 @@
+{% extends "base.html" %} {% block title %} Edit Profile {% endblock %} {% block
+content %} 
+
+<div class="row d-flex justify-content-center align-content-center h-100">
+    <div class="col-12 col-md-5 col-lg-4">
+        <div class="card p-4 shadow">
+            <h3 class="d-flex justify-content-between mb-3">Edit Profile <span>#{{ student.student_id }}</span></h3>
+            <h4 class="text-muted text-end">{{ student.user.email }}</h4>
+            <div class="card-body">
+                <form action="{{ url_for('student.editProfile') }}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Name</label>
+                        <input class="form-control" type="text" name="name" id="name" value="{{ student.name }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="password">Password</label>
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Keep blank to use previous password">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="skills" class="form-label">Skills</label>
+                        <textarea class="form-control" name="skills" id="skills" rows="3">{{ student.skills }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="mb-3">
+                            <label class="form-label" for="dept">Department</label>
+                            <input class="form-control" type="text" name="dept" id="dept" value="{{ student.dept }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="course">Course</label>
+                            <input class="form-control" type="text" name="course" id="course" value="{{ student.course }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="resume_path">Resume(link)</label>
+                        <input class="form-control" type="url" name="resume_path" id="resume_path" value="{{ student.resume_path }}">
+                    </div>
+
+                    <div class=" mt-4 d-flex align-content-center gap-3 justify-content-center">
+                        <a href="{{ url_for('student.student_dashboard') }}" class="btn btn-outline-secondary">Go Back</a>
+                        <button class="btn btn-outline-success" type="submit">Save</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

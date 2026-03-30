@@ -5,34 +5,53 @@ content %}
     <div class="col-12">
         <div class="card p-4 shadow">
             <h3 class="card-title d-flex justify-content-between">
-                Student Details <span>#{{ student.student_id }}</span>
+                Application History
+                <span class="text-muted"
+                    >{{ student.name }} #{{ student.student_id }}</span
+                >
             </h3>
-            <div class="card-body">
-                <h6 class="mb-0 text-muted">Name</h6>
-                <p class="fs-4 mb-0">{{ student.name }}</p>
-
-                <h6 class="mt-4 mb-0 text-muted">Department</h6>
-                <p class="fs-4 mb-0">{{ student.dept }}</p>
+            {% for application in history %}
+            <div class="row my-4">
+                <div class="col-12">
+                    <div class="card shadow p-4">
+                        <h4
+                            class="card-title d-flex justify-content-between mb-3"
+                        >
+                            Drive <span>#{{ application.drive.drive_id }}</span>
+                        </h4>
+                        <div class="mb-3">
+                            <h6>
+                                {{ application.drive.company.name }} • {{
+                                application.drive.job_title }}
+                            </h6>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-3">Status</h6>
+                            <ul
+                                class="list-group list-group-horizontal status-history"
+                            >
+                                {% for status in application.history.split(',')
+                                %}
+                                <li class="list-group-item">&rarr;</li>
+                                <li class="list-group-item">{{ status }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>
 
 <div class="row my-4">
-    <div class="col-12">
-        <div class="card p-4 shadow">
-            <h3 class="card-title">Completed Drives</h3>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <div class="col-12 text-center">
+        <a
+            href="{{ url_for('student.student_dashboard') }}"
+            class="btn btn-outline-secondary"
+            >Go Back</a
+        >
     </div>
 </div>
 

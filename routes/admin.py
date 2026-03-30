@@ -48,6 +48,7 @@ def blacklistCompany(id):
             drive.status = "Rejected"
             for application in drive.applications:
                 application.status = "Company Blacklisted"
+                application.history = application.history + "," + "Company Blacklisted"
 
         db.session.commit()
     

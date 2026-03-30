@@ -1,6 +1,7 @@
 from flask import Flask
 from extensions import db
-from models import User, Student
+from models import User, Student, Drive
+from datetime import datetime
 
 from routes.auth import auth_bp
 from routes.admin import admin_bp
@@ -25,6 +26,19 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(student_bp)
 app.register_blueprint(company_bp)
+
+
+@app.before_request
+def driveCleanup():
+    now = datetime.now()
+
+    expired = Drive.query.filter(Drive.deadline < now, Drive.status == "Approved").all()
+    if not expired: return
+
+    for drive in expired:
+        drive.status = "Closed"
+
+    db.session.commit()
 
 if (__name__ == "__main__"):
     app.run(debug=True, host="0.0.0.0")

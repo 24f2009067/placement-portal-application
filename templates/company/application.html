@@ -17,7 +17,7 @@ application.application_id }}{% endblock %} {% block content %}
                     application.student.course }}
                 </small>
                 <small class="text-secondary mb-0 d-block">
-                    Student ID: {{ application.student.student_id }}
+                    Skills: {{ application.student.skills }}
                 </small>
             </div>
 
@@ -31,9 +31,6 @@ application.application_id }}{% endblock %} {% block content %}
                 <p class="mb-0 fw-semibold">
                     {{ application.drive.job_title }}
                 </p>
-                <small class="text-secondary"
-                    >Drive ID: {{ application.drive.drive_id }}</small
-                >
             </div>
 
             <div class="mb-4">

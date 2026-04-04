@@ -32,3 +32,11 @@
 - Review student applications and update candidate status ✅
 - Share acceptance or rejection status(Shortlisted / Selected / Rejected) to applicants ✅
 - View shortlisted student profiles and resumes ✅
+
+## Milestone: Student Dashboard and Job Application System
+- Register, log in, and update profile (education, skills, resume) ✅
+- View and Search job postings by company, position, or IDs ✅
+- Apply for jobs and track application status ✅
+- View applied jobs with application status ✅
+- Receive notifications for application status changes (shortlisted/rejected/accepted) ✅
+

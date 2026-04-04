@@ -15,3 +15,11 @@
 - Create admin login (predefined, No registration allowed) ✅
 - Admin approves companies. Companies can't access dashboard unless approved ✅
 - Login redirects users to their respective dashboards after login ✅
+
+## Milestone: Admin Dashboard and Management
+- Dashboard shows total companies, students, placement drives and job applications ✅
+- Approve / Reject company applications and drives ✅
+- View and manage all students, companies, job postings and applications ✅
+- Search students by name, ID, or contact ✅
+- Search companies by name or ID ✅
+- Blacklist/deactivate companies or students from the system ✅

@@ -48,3 +48,6 @@
 - Maintain status updates (Applied / Shortlisted / Rejected / Selected  etc.) ✅
 - Admin and Company can view student profiles and applications; Students can view their own records ✅
 
+## Milestone: Responsive UI and Styling
+- Add styling using Bootstrap ✅
+- Ensure mobile/tablet/PC responsiveness ✅

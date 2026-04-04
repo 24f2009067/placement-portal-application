@@ -23,3 +23,12 @@
 - Search students by name, ID, or contact ✅
 - Search companies by name or ID ✅
 - Blacklist/deactivate companies or students from the system ✅
+
+## Milestone: Company Dashboard and Job Management
+- Companies can only access the dashboard when approved by admin ✅
+- View dashboard with posted jobs/placement drives created and received applications ✅
+- Post new job positions with all necessary details ✅
+- Update Drive status (Active/Closed) ✅
+- Review student applications and update candidate status ✅
+- Share acceptance or rejection status(Shortlisted / Selected / Rejected) to applicants ✅
+- View shortlisted student profiles and resumes ✅

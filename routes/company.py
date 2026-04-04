@@ -12,8 +12,12 @@ def company_dashboard():
 
     user_id = session.get("user_id")
     id = Company.query.filter(Company.user_id == user_id).first().company_id
-    
-    return render_template("/company/dashboard.html", current_user_role="Company", ongoingDrives=getOngoingDrives(id), closedDrives=getClosedDrives(id))
+    q = request.args.get("q")
+
+    return render_template("/company/dashboard.html",
+                           current_user_role="Company",
+                           ongoingDrives=getOngoingDrives(id, q),
+                           closedDrives=getClosedDrives(id, q))
 
 # Drives
 @company_bp.route("/company/drives/<int:id>/view")
@@ -131,8 +135,16 @@ def setStatus(id):
 
     if application:
         status = request.form["status"]
+        prev_status = application.status
         application.status = status
-        application.history = application.history + "," + status
+        now = datetime.now()
+        application.history = application.history + "," + status + f" ({now:%Y-%m-%d})"
+        
+        student_id = application.student.student_id
+        title = f"{application.drive.company.name} • {application.drive.job_title}"
+        message = f"Application status changed from {prev_status} to {status}."
+        notification = Notification(student_id=student_id, created_on=now, title=title, message=message)
+        db.session.add(notification)
         db.session.commit()
     
     return redirect(url_for("company.viewDrive", id=application.drive_id))
@@ -151,8 +163,28 @@ def reLogin():
     
     return False
 
-def getOngoingDrives(id):
-    return Drive.query.join(Drive.company).filter(Drive.status == "Approved", Drive.company_id == id).order_by(Drive.drive_id).all()
+def getOngoingDrives(id, q):
+    query =  Drive.query.join(Drive.company)
 
-def getClosedDrives(id):
-    return Drive.query.join(Drive.company).filter(Drive.status == "Closed", Drive.company_id == id).order_by(Drive.drive_id).all()
+    if q:
+        if q.isdigit():
+            query = query.filter(Drive.drive_id == int(q))
+        else:
+            query = query.filter(Drive.job_title.ilike(f"%{q}%"))
+    
+    output = query.filter(Drive.status == "Approved", Drive.company_id == id).order_by(Drive.drive_id).all()
+
+    return output
+
+def getClosedDrives(id, q):
+    query =  Drive.query.join(Drive.company)
+
+    if q:
+        if q.isdigit():
+            query = query.filter(Drive.drive_id == int(q))
+        else:
+            query = query.filter(Drive.job_title.ilike(f"%{q}%"))
+    
+    output = query.filter(Drive.status == "Closed", Drive.company_id == id).order_by(Drive.drive_id).all()
+
+    return output

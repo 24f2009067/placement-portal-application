@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, redirect, session
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import or_
+from datetime import datetime
 from models import *
 
 admin_bp = Blueprint("admin", __name__)
@@ -8,15 +10,17 @@ admin_bp = Blueprint("admin", __name__)
 def admin_dashboard():
     page = reLogin()
     if page: return page
+
+    q = request.args.get("q")
     
     return render_template("/admin/dashboard.html", 
                            current_user_role="Admin", 
                            stats=getStats(), 
-                           regCompanies=getRegCompanies(), 
-                           pendCompanies=getPendCompanies(),
-                           ongoingDrives=getOngingDrives(),
-                           regStudents = getRegStudents(),
-                           applications = getApplications()
+                           regCompanies=getRegCompanies(q), 
+                           pendCompanies=getPendCompanies(q),
+                           ongoingDrives=getOngingDrives(q),
+                           regStudents = getRegStudents(q),
+                           applications = getApplications(q)
                            )
 
 # Company routes
@@ -48,7 +52,14 @@ def blacklistCompany(id):
             drive.status = "Rejected"
             for application in drive.applications:
                 application.status = "Company Blacklisted"
-                application.history = application.history + "," + "Company Blacklisted"
+                now = datetime.now()
+                application.history = application.history + "," + "Company Blacklisted" + f" ({now:%Y-%m-%d})"
+
+                student_id = application.student.student_id
+                title = f"{application.drive.company.name} • {application.drive.job_title}"
+                message = "Application status changed to Company Blacklisted."
+                notification = Notification(student_id=student_id, created_on=now, title=title, message=message)
+                db.session.add(notification)
 
         db.session.commit()
     
@@ -128,7 +139,7 @@ def getStats():
         "company_pending": 0,
         "company_blacklisted": 0,
 
-        "drive_total": 0,
+        "drive_total": 0,"{{ url_for(current_user_role.lower() + '.' + current_user_role.lower() + '_dashboard' if current_user_role != 'User' else 'auth.login') }}"
         "drive_active": 0,
         "drive_closed": 0,
         "drive_applications": 0     
@@ -149,17 +160,62 @@ def getStats():
     stats["drive_applications"] = Application.query.join(Application.drive).join(Drive.company).filter(Drive.status == "Approved").order_by(Drive.drive_id).count()
     return stats
 
-def getRegCompanies():
-    return Company.query.filter(Company.status == "Approved").order_by(Company.name).all()
+def getRegCompanies(q):
+    query = Company.query
+    if q:
+        if q.isdigit():
+            query = query.filter(Company.company_id == int(q))
+        else:
+            query = query.filter(Company.name.ilike(f"%{q}%"))
 
-def getPendCompanies():
-    return Company.query.filter(Company.status == "Pending").order_by(Company.name).all()
+    output = query.filter(Company.status == "Approved").order_by(Company.name).all()
+    
+    return output
 
-def getOngingDrives():
-    return Drive.query.join(Drive.company).filter(Drive.status == "Approved").order_by(Drive.company_id).all()
+def getPendCompanies(q):
+    query = Company.query
+    if q:
+        if q.isdigit():
+            query = query.filter(Company.company_id == int(q))
+        else:
+            query = query.filter(Company.name.ilike(f"%{q}%"))
 
-def getRegStudents():
-    return Student.query.join(Student.user).filter(User.is_active == True).order_by(Student.student_id).all()
+    output = query.filter(Company.status == "Pending").order_by(Company.name).all()
 
-def getApplications():
-    return Application.query.join(Application.drive).join(Drive.company).filter(Drive.status == "Approved").order_by(Drive.drive_id).all()
+    return output
+
+def getOngingDrives(q):
+    query = Drive.query.join(Drive.company)
+    if q:
+        if q.isdigit():
+            query = query.filter(Drive.drive_id == int(q))
+        else:
+            query = query.filter(Company.name.ilike(f"%{q}%"))
+
+    output = query.filter(Drive.status == "Approved").order_by(Drive.company_id).all()
+
+    return output
+
+def getRegStudents(q):
+    query = Student.query.join(Student.user)
+    if q:
+        if q.isdigit():
+            query = query.filter(Student.student_id == int(q))
+        else:
+            query = query.filter(Student.name.ilike(f"%{q}%"))
+
+    output = query.filter(User.is_active == True).order_by(Student.student_id).all()
+
+    return output
+
+def getApplications(q):
+    query = Application.query.join(Application.drive).join(Drive.company).join(Application.student)
+    if q:
+        if q.isdigit():
+            query = query.filter(Application.application_id == int(q))
+        else:
+            query = query.filter(or_(Student.name.ilike(f"%{q}%"), Company.name.ilike(f"%{q}%")))
+
+    output = query.filter(Drive.status == "Approved").order_by(Drive.drive_id).all()
+
+    return output

@@ -29,6 +29,7 @@ class Student(db.Model):
     resume_path = db.Column(db.String(50))
 
     applications = db.relationship("Application", backref="student")
+    notifications = db.relationship("Notification", backref="student")
 
 class Company(db.Model):
     company_id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -57,8 +58,16 @@ class Application(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('student.student_id'), nullable=False)
     applied_on = db.Column(db.Date, nullable=False)
     status = db.Column(db.String(30), nullable=False, default="Applied") # Applied / Rejected / Selected
-    history = db.Column(db.String(250), nullable=False, default="Applied")
+    history = db.Column(db.String(250), nullable=False, default="")
 
     __table_args__ = (
         db.UniqueConstraint("student_id", "drive_id", name="unique_student_drive"),
     )
+
+class Notification(db.Model):
+    notification_id = db.Column(db.Integer, primary_key=True, nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey('student.student_id'), nullable=False)
+    created_on = db.Column(db.DateTime, nullable=False)
+    is_seen = db.Column(db.Boolean, nullable=False, default=False)
+    title = db.Column(db.String(100))
+    message = db.Column(db.String(300))

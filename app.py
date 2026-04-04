@@ -1,7 +1,7 @@
 from flask import Flask
 from extensions import db
 from models import User, Student, Drive
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from routes.auth import auth_bp
 from routes.admin import admin_bp
@@ -30,9 +30,9 @@ app.register_blueprint(company_bp)
 
 @app.before_request
 def driveCleanup():
-    now = datetime.now()
+    yesterday = datetime.now() - timedelta(days=1)
 
-    expired = Drive.query.filter(Drive.deadline < now, Drive.status == "Approved").all()
+    expired = Drive.query.filter(Drive.deadline < yesterday, Drive.status == "Approved").all()
     if not expired: return
 
     for drive in expired:

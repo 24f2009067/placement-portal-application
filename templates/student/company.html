@@ -27,18 +27,33 @@ endblock %} {% block content %}
                                 <td>{{ drive.job_title }}</td>
                                 <td>{{ drive.deadline }}</td>
                                 <td>
-                                    <a href="{{ url_for('student.viewDrive', id=drive.drive_id) }}" class="btn btn-outline-primary"
+                                    <a
+                                        href="{{ url_for('student.viewDrive', id=drive.drive_id) }}"
+                                        class="btn btn-outline-primary"
                                         >Get Details</a
                                     >
                                 </td>
                             </tr>
-                            {% endfor %}
+                            {% endfor %} {% if drives == [] %}
+                            <tr>
+                                <td
+                                    class="text-secondary text-center"
+                                    colspan="4"
+                                >
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
 
                 <div class="text-center">
-                    <a href="{{ url_for('student.student_dashboard') }}" class="btn btn-outline-secondary">Go Back</a>
+                    <a
+                        href="{{ url_for('student.student_dashboard') }}"
+                        class="btn btn-outline-secondary"
+                        >Go Back</a
+                    >
                 </div>
             </div>
         </div>

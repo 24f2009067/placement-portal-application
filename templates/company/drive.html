@@ -19,7 +19,9 @@
 
             <div class="mb-4">
                 <h6 class="text-muted mb-2">Applications</h6>
-                <table class="table table-striped overflow-scroll text-center align-middle">
+                <table
+                    class="table table-striped overflow-scroll text-center align-middle"
+                >
                     <thead>
                         <tr>
                             <th class="col-1">Student ID</th>
@@ -33,12 +35,20 @@
                             <td>{{ application.student.student_id }}</td>
                             <td>{{ application.student.name }}</td>
                             <td>
-                                <a href="{{ url_for('company.viewApplication', id=application.application_id) }}" class="btn btn-outline-primary"
+                                <a
+                                    href="{{ url_for('company.viewApplication', id=application.application_id) }}"
+                                    class="btn btn-outline-primary"
                                     >Review Application</a
                                 >
                             </td>
                         </tr>
-                        {% endfor %}
+                        {% endfor %}{% if drive.applications == [] %}
+                        <tr>
+                            <td class="text-secondary text-center" colspan="6">
+                                No Records Found
+                            </td>
+                        </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>

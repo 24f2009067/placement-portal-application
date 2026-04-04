@@ -15,11 +15,13 @@ def student_dashboard():
     student = Student.query.filter(Student.user_id == user_id).first()
     id = student.student_id
 
+    q = request.args.get("q")
+
     return render_template("/student/dashboard.html",
                            current_user_role="Student", 
                            student=student, 
-                           regCompanies=getRegCompanies(), 
-                           appliedDrives=getAppliedDrives(id))
+                           regCompanies=getRegCompanies(q), 
+                           appliedDrives=getAppliedDrives(id, q))
 
 # History
 @student_bp.route("/student/history")
@@ -75,6 +77,8 @@ def apply(id):
         student_id = Student.query.filter(Student.user_id == uid).first().student_id
         try:
             application = Application(drive_id=id, student_id=student_id, applied_on=datetime.today())
+            now = datetime.now()
+            application.history = "Applied" + f" ({now:%Y-%m-%d})"
             db.session.add(application)
             db.session.commit()
 
@@ -87,7 +91,6 @@ def apply(id):
     return redirect(url_for('student.student_dashboard'))
 
 # Profile
-
 @student_bp.route("/student/profile/edit", methods=["GET", "POST"])
 def editProfile():
     page = reLogin()
@@ -113,6 +116,30 @@ def editProfile():
     if request.method == "GET":
         return render_template("/student/editProfile.html", current_user_role="Student", student=student)
     
+# Notifications
+@student_bp.route("/student/notifications")
+def viewNotifications():
+    page = reLogin()
+    if page: return page
+
+    uid = session.get("user_id")
+    student_id = Student.query.filter(Student.user_id == uid).first().student_id
+    notifications = Notification.query.filter(Notification.student_id == student_id, Notification.is_seen == False).order_by(Notification.created_on.desc()).all()
+
+    return render_template("/student/notifications.html", current_user_role="Student", notifications=notifications)
+
+@student_bp.route("/student/notification/<int:id>/read", methods=["POST"])
+def markAsRead(id):
+    page = reLogin()
+    if page: return page
+
+    notification = Notification.query.filter(Notification.notification_id == id).first()
+    if notification: notification.is_seen = True
+
+    db.session.commit()
+
+    return redirect(url_for("student.student_dashboard"))
+
 
 # Utilities
 def reLogin():
@@ -124,11 +151,31 @@ def reLogin():
     if (not user.is_active):
         return render_template("login.html", current_user_role="User", message="Access Denied! Contact your administrator.")
     
-def getRegCompanies():
-    return Company.query.filter(Company.status == "Approved").order_by(Company.name).order_by(Company.company_id).all()
+def getRegCompanies(q):
+    query = Company.query
 
-def getAppliedDrives(id):
-    return Application.query.join(Application.drive).filter(Application.student_id == id).order_by(Drive.drive_id).all()
+    if q:
+        if q.isdigit():
+            query = query.filter(Company.company_id == int(q))
+        else:
+            query = query.filter(Company.name.ilike(f"%{q}%"))
+
+    output = query.filter(Company.status == "Approved").order_by(Company.name).order_by(Company.company_id).all()
+
+    return output
+
+def getAppliedDrives(id, q):
+    query = Application.query.join(Application.drive).join(Drive.company)
+    if q:
+        if q.isdigit():
+            query = query.filter(Drive.drive_id == int(q))
+        else:
+            query = query.filter(or_(Company.name.ilike(f"%{q}%"), Drive.job_title.ilike(f"%{q}%"), Application.status.ilike(f"%{q}%")))
+
+    query = query.distinct()
+    output = query.filter(Application.student_id == id).order_by(Drive.drive_id).all()
+
+    return output
 
 def getDrives(id):
     return Drive.query.filter(Drive.company_id == id, Drive.deadline >= datetime.today(), Drive.status == "Approved").order_by(Drive.drive_id).all()

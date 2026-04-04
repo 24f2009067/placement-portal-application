@@ -7,11 +7,22 @@ block content %}
                 class="card-body d-flex justify-content-between align-items-center"
             >
                 <h2 class="card-title">Welcome {{ student.name.title() }}</h2>
-                <div class="d-flex justify-content-evenly gap-3">
-                    <a href="{{ url_for('student.editProfile') }}" class="btn btn-outline-primary"
+                <div class="d-flex justify-content-evenly gap-3 flex-wrap">
+                    <a
+                        href="{{ url_for('student.editProfile') }}"
+                        class="btn btn-outline-primary"
                         >Edit Pofile</a
                     >
-                    <a href="{{ url_for('student.history') }}" class="btn btn-outline-secondary">History</a>
+                    <a
+                        href="{{ url_for('student.viewNotifications') }}"
+                        class="btn btn-outline-danger"
+                        >Notifications</a
+                    >
+                    <a
+                        href="{{ url_for('student.history') }}"
+                        class="btn btn-outline-secondary"
+                        >History</a
+                    >
                 </div>
             </div>
         </div>
@@ -38,12 +49,23 @@ block content %}
                                 <td>{{ company.company_id }}</td>
                                 <td>{{ company.name }}</td>
                                 <td>
-                                    <a href="{{ url_for('student.viewCompany', id=company.company_id) }}" class="btn btn-outline-primary"
+                                    <a
+                                        href="{{ url_for('student.viewCompany', id=company.company_id) }}"
+                                        class="btn btn-outline-primary"
                                         >View Details</a
                                     >
                                 </td>
                             </tr>
-                            {% endfor %}
+                            {% endfor %} {% if regCompanies == [] %}
+                            <tr>
+                                <td
+                                    class="text-secondary text-center"
+                                    colspan="3"
+                                >
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -77,7 +99,16 @@ block content %}
                                 <td>{{ application.drive.deadline }}</td>
                                 <td>{{ application.status }}</td>
                             </tr>
-                            {% endfor %}
+                            {% endfor %} {% if appliedDrives == [] %}
+                            <tr>
+                                <td
+                                    class="text-secondary text-center"
+                                    colspan="5"
+                                >
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>

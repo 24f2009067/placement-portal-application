@@ -133,7 +133,16 @@ block content %}
                                     >
                                 </td>
                             </tr>
-                            {% endfor %}
+                            {% endfor %} {% if applications == [] %}
+                            <tr>
+                                <td
+                                    class="text-secondary text-center"
+                                    colspan="6"
+                                >
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -185,7 +194,16 @@ block content %}
                                     </div>
                                 </td>
                             </tr>
-                            {% endfor %}
+                            {% endfor %} {% if ongoingDrives == [] %}
+                            <tr>
+                                <td
+                                    class="text-secondary text-center"
+                                    colspan="4"
+                                >
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -232,7 +250,16 @@ block content %}
                                     </form>
                                 </td>
                             </tr>
-                            {% endfor %}
+                            {% endfor %} {% if regStudents == [] %}
+                            <tr>
+                                <td
+                                    class="text-secondary text-center"
+                                    colspan="5"
+                                >
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -275,7 +302,16 @@ block content %}
                                     </form>
                                 </td>
                             </tr>
-                            {% endfor %}
+                            {% endfor %} {% if regCompanies == [] %}
+                            <tr>
+                                <td
+                                    class="text-secondary text-center"
+                                    colspan="3"
+                                >
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -317,7 +353,16 @@ block content %}
                                     </form>
                                 </td>
                             </tr>
-                            {% endfor %}
+                            {% endfor %} {% if pendCompanies == [] %}
+                            <tr>
+                                <td
+                                    class="text-secondary text-center"
+                                    colspan="3"
+                                >
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>

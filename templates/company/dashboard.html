@@ -48,7 +48,16 @@ block content %}
                                     </div>
                                 </td>
                             </tr>
-                            {% endfor %}
+                            {% endfor %} {% if ongoingDrives == [] %}
+                            <tr>
+                                <td
+                                    class="text-secondary text-center"
+                                    colspan="6"
+                                >
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -84,7 +93,16 @@ block content %}
                                     >
                                 </td>
                             </tr>
-                            {% endfor %}
+                            {% endfor %}{% if closedDrives == [] %}
+                            <tr>
+                                <td
+                                    class="text-secondary text-center"
+                                    colspan="6"
+                                >
+                                    No Records Found
+                                </td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>

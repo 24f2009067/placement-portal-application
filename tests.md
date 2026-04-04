@@ -40,3 +40,11 @@
 - View applied jobs with application status ✅
 - Receive notifications for application status changes (shortlisted/rejected/accepted) ✅
 
+## Milestone: Job Application History and Status Tracking
+- Store and display complete job application history ✅
+- Prevent duplicate job applications for the same job posting ✅
+- Ensure only approved companies can create placement drives ✅
+- Ensure students can view and apply only to approved placement drives ✅
+- Maintain status updates (Applied / Shortlisted / Rejected / Selected  etc.) ✅
+- Admin and Company can view student profiles and applications; Students can view their own records ✅
+
